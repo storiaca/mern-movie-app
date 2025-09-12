@@ -1,14 +1,21 @@
-import mysql2 from "mysql2";
+import "dotenv/config";
+import { createPool } from "mysql2/promise";
 
-require("dotenv").config();
+export const db = createPool({
+  host: "localhost",
+  user: "root",
+  password: process.env.DB_PASSWORD!,
+  database: "mobiesdb",
+  port: Number(process.env.DB_PORT) || 3306,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+  namedPlaceholders: true,
+});
 
-const db = mysql2
-  .createConnection({
-    host: "localhost",
-    user: "root",
-    password: process.env.DB_PASSWORD!,
-    database: "mobiesdb",
-  })
-  .promise();
-
-export default db;
+// export const db = mysql2.createConnection({
+//   host: "localhost",
+//   user: "root",
+//   password: process.env.DB_PASSWORD!,
+//   database: "mobiesdb",
+// });
